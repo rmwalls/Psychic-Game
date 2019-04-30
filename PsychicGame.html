@@ -16,16 +16,23 @@
     <p id="userGuess-text"></p>
   </div>
 
-  <script type="text/javascript">
+  <script type="text/javascript"></script>
+    /* Initialize game:
+      Get computer guess
+      reset guess count to 9
+      reset keysGuessed
+    */
     // Creates an array that lists out all of the computer's options, aka, the alphabet
     var computerChoices = ("abcdefghijklmnopqrstuvwxyz").split("");
+    
+    // Randomly chooses a choice from the options array. This is the Computer's guess.
+      var computerGuess = computerChoices[Math.floor(Math.random() * computerChoices.length)];
     
    // Creating variables to hold the number of wins, losses. They start at 0. # of guesses at 9.
     var wins = 0;
     var losses = 0;
     var guess = 9;
-   // var keysGuessed = []; // for loop to push to array??
- 
+    var keysGuessed = []; 
 
     // Create variables that hold references to the places in the HTML where we want to display things.
     var directionsText = document.getElementById("directions-text");
@@ -36,19 +43,19 @@
     var guessText = document.getElementById("guessLeft-text");
     var userGuessText = document.getElementById("userGuess-text");
 
-    // This function is run whenever the user presses a key.
+    /* MAIN function: run whenever the user presses a key.
+      get userGuess
+      Check that they didn't already guess letter pressed
+      Show letter pressed (array)
+      Check if guess is correct
+        if not correct - Decrement guesses left, check correctness if guesses less than 9, then LOSE
+        If correct - Increment wins, reset keysGuessed and guesses left
+    */
+
     document.onkeyup = function(event) {
 
       // Determines which key was pressed.
       var userGuess = event.key;
-
-      /* for (i= keysGuessed.length; i<8; i++) {
-         keysGuessed.push(userGuess);
-       } */
-
-
-      // Randomly chooses a choice from the options array. This is the Computer's guess.
-      var computerGuess = computerChoices[Math.floor(Math.random() * computerChoices.length)];
      
       // This logic determines the outcome of the game (win/loss), and increments the appropriate number
       // don't increment losses until 9 bad guesses, if correct before 9, increment wins, reset guesses
@@ -69,7 +76,7 @@
       winsText.textContent = "Wins: " + wins;
       lossesText.textContent = "Losses: " + losses;
       guessText.textContent = "Guesses left: " + guess; //reset when user guesses right or is wrong 9 times
-      userGuessText.textContent = "Your guesses so far: " + userGuess; // document.write(keysGuessed);
+      userGuessText.textContent = "Your guesses so far: " + keysGuessed; // document.write(keysGuessed);
       // make an array and array.push? add to list til win or lose then reset
       
       // need to reset number of guess to 9 when it reaches 0 or when user wins
