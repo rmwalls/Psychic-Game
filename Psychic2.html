@@ -12,29 +12,29 @@
     <p id="computerchoice-text"></p>
     <p id="wins-text"></p>
     <p id="losses-text"></p>
-    <p id="guessLeft-text"></p>
+    <p id="guess-text"></p>
     <p id="userGuess-text"></p>
   </div>
 
   <script type="text/javascript">
     /* Initialize game:
-       Get computer guess DONE
-        reset guess count to 9 DONE
-       reset keysGuessed DONE
+      Get computer guess
+      reset guess count to 9
+      reset keysGuessed
     */
-    
     // Creates an array that lists out all of the computer's options, aka, the alphabet
     var computerChoices = ("abcdefghijklmnopqrstuvwxyz").split("");
-
+    
     // Randomly chooses a choice from the options array. This is the Computer's guess.
-    var computerGuess = computerChoices[Math.floor(Math.random() * computerChoices.length)];
-    console.log(computerGuess);
+      var computerGuess = computerChoices[Math.floor(Math.random() * computerChoices.length)];
+console.log("letter picked " + computerGuess);
 
-   // Creating  and setting variables to hold the number of wins, losses. They start at 0. # of guesses at 9.
-   // array to hold keys guessed
+
+   // Creating variables to hold the number of wins, losses. They start at 0. # of guesses at 9. array for letters guessed
     var wins = 0;
     var losses = 0;
     var guess = 9;
+console.log("first " + guess);
     var keysGuessed = []; 
 
     // Create variables that hold references to the places in the HTML where we want to display game stats.
@@ -43,47 +43,65 @@
     var computerChoiceText = document.getElementById("computerchoice-text");
     var winsText = document.getElementById("wins-text");
     var lossesText = document.getElementById("losses-text");
-    var guessText = document.getElementById("guessLeft-text");
+    var guessText = document.getElementById("guess-text");
     var userGuessText = document.getElementById("userGuess-text");
 
     /* MAIN function: run whenever the user presses a key.
       get userGuess
-      Check that they didn't already guess letter pressed - NEED TO DO THIS
+      CHECK that they didn't already guess letter pressed - NEED TO DO THIS
       Show letter pressed (array)
       Check if guess is correct
-        if not correct - Decrement guesses left, check correctness if guesses 1-9, keep going. At 0 guesses left, then LOSE
-        If correct - Increment wins, reset keysGuessed and guesses left, losses
+        If correct - Increment wins, reset keysGuessed and guesses left, pick new letter
+	      if not correct - Decrement guesses left, if guess = 0, then LOSE, prompt to play again
     */
-
     document.onkeyup = function(event) {
 
       // Determines which key was pressed.
       var userGuess = event.key;
-      
-      keysGuessed.push(userGuess); // add the user's guess to the array
+
+      // push guess to array
+      keysGuessed.push(userGuess);
+	
+      // decrement guess
+      guess++;
+console.log("second " + guess);
 
       // This logic determines the outcome of the game (win/loss), and increments the appropriate number
-      // don't increment losses until 9 bad guesses, if correct before 9, increment wins, reset guesses
-      if (userGuess === computerGuess) {
-        wins++;
+      // don't increment losses until 9 bad guesses. if correct before 9, increment wins, reset guess to 9
+      if (userGuess === computerGuess) { // user wins, increment wins, reset other
+        ++wins;
+	      losses = 0;
+        guess = 9;
+	      keysGuessed=[];
+      } else if (userGuess !== computerGuess && guess > 0) { // user guess is no match, but lives left
+        guess = (guess - 1);
+console.log("third " + guess);
+      } else {  // no match, out of lives
+      	losses++;
         guess=9;
-        keysGuessed=[];
-      } else {
-        losses++;
-        guess--;
-      }
+console.log("fourth " + guess);
+	      var newGame = prompt("Sorry! Out of guesses. Play again?"); 
+		      if (newGame != null) {
+		      var wins = 0;
+		      var losses = 0;
+		      var guess = 9;
+		      // var keysGuessed = [];
+	      	} else {
+		      alert("Bye, bye! Thanks for playing!");
+	    }
+	  } 
 
       // Hide the directions
       directionsText.textContent = "";
 
       // Display the user and computer guesses, and wins/losses/remaining guesses.
       userChoiceText.textContent = "You chose: " + userGuess;
-      computerChoiceText.textContent = "The computer chose: " + computerGuess;
+      computerChoiceText.textContent = "The computer chose: " + computerGuess; // GET RID OF THIS
       winsText.textContent = "Wins: " + wins;
       lossesText.textContent = "Losses: " + losses;
       guessText.textContent = "Guesses left: " + guess; //reset when user guesses right or is wrong 9 times
-      userGuessText.textContent = "Your guesses so far: " + keysGuessed // document.write(keysGuessed);
-      // make an array and array.push? add to list til win or lose then reset
+      userGuessText.textContent = "Your guesses so far: " + keysGuessed; 
+      
       
       // need to reset number of guess to 9 when it reaches 0 or when user wins
       // erase userGuessText when win or lose
