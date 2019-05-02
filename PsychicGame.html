@@ -17,12 +17,7 @@
   </div>
 
   <script type="text/javascript">
-    /* Initialize game:
-       Get computer guess DONE
-        reset guess count to 9 DONE
-       reset keysGuessed DONE
-    */
-    
+       
     // Creates an array that lists out all of the computer's options, aka, the alphabet
     var computerChoices = ("abcdefghijklmnopqrstuvwxyz").split("");
 
@@ -46,15 +41,6 @@
     var guessText = document.getElementById("guessLeft-text");
     var userGuessText = document.getElementById("userGuess-text");
 
-    /* MAIN function: run whenever the user presses a key.
-      get userGuess
-      Check that they didn't already guess letter pressed - NEED TO DO THIS
-      Show letter pressed (array)
-      Check if guess is correct
-        if not correct - Decrement guesses left, check correctness if guesses 1-9, keep going. At 0 guesses left, then LOSE
-        If correct - Increment wins, reset keysGuessed and guesses left, losses
-    */
-
     document.onkeyup = function(event) {
 
       // Determines which key was pressed.
@@ -62,33 +48,56 @@
       
       keysGuessed.push(userGuess); // add the user's guess to the array
 
-      // This logic determines the outcome of the game (win/loss), and increments the appropriate number
-      // don't increment losses until 9 bad guesses, if correct before 9, increment wins, reset guesses
+      /* This code works, but is incomplete. 
+      Commenting out to try some alternatives
+      
       if (userGuess === computerGuess) {
         wins++;
+        losses=0;
         guess=9;
         keysGuessed=[];
       } else {
         losses++;
         guess--;
       }
+      */ 
+
+      if (userGuess === computerGuess) { // user wins, increment wins, reset other. Get new computer guess
+console.log("you won");
+        wins++;
+	      losses = 0;
+        guess = 9;
+	      keysGuessed=[];
+      } else if ((userGuess !== computerGuess) && (guess > 0)) { // user guess is no match, but lives left
+        guess = (guess - 1);
+console.log("elseif " + guess);
+      } else {  // no match, out of lives
+      	losses++;
+        guess=9;
+console.log("else " + guess);
+	      var newGame = prompt("Sorry! Out of guesses. Play again?"); 
+		      if (newGame != null) {
+		      var wins = 0;
+		      var losses = 0;
+          var guess = 9;
+console.log("startover " + guess);
+		      // var keysGuessed = [];
+	      	} else {
+		      alert("Bye, bye! Thanks for playing!");
+	    }
 
       // Hide the directions
       directionsText.textContent = "";
 
       // Display the user and computer guesses, and wins/losses/remaining guesses.
       userChoiceText.textContent = "You chose: " + userGuess;
-      computerChoiceText.textContent = "The computer chose: " + computerGuess;
+      computerChoiceText.textContent = "The computer chose: " + computerGuess; //GET RID OF THIS
       winsText.textContent = "Wins: " + wins;
       lossesText.textContent = "Losses: " + losses;
       guessText.textContent = "Guesses left: " + guess; //reset when user guesses right or is wrong 9 times
       userGuessText.textContent = "Your guesses so far: " + keysGuessed // document.write(keysGuessed);
-      // make an array and array.push? add to list til win or lose then reset
-      
-      // need to reset number of guess to 9 when it reaches 0 or when user wins
-      // erase userGuessText when win or lose
 
-    };
+    }};
   </script>
 </body>
 </html>

@@ -17,25 +17,13 @@
   </div>
 
   <script type="text/javascript">
-    /* Initialize game:
-      Get computer guess
-      reset guess count to 9
-      reset keysGuessed
-    */
     // Creates an array that lists out all of the computer's options, aka, the alphabet
     var computerChoices = ("abcdefghijklmnopqrstuvwxyz").split("");
     
     // Randomly chooses a choice from the options array. This is the Computer's guess.
       var computerGuess = computerChoices[Math.floor(Math.random() * computerChoices.length)];
 console.log("letter picked " + computerGuess);
-
-
-   // Creating variables to hold the number of wins, losses. They start at 0. # of guesses at 9. array for letters guessed
-    var wins = 0;
-    var losses = 0;
-    var guess = 9;
-console.log("first " + guess);
-    var keysGuessed = []; 
+  
 
     // Create variables that hold references to the places in the HTML where we want to display game stats.
     var directionsText = document.getElementById("directions-text");
@@ -46,15 +34,16 @@ console.log("first " + guess);
     var guessText = document.getElementById("guess-text");
     var userGuessText = document.getElementById("userGuess-text");
 
-    /* MAIN function: run whenever the user presses a key.
-      get userGuess
-      CHECK that they didn't already guess letter pressed - NEED TO DO THIS
-      Show letter pressed (array)
-      Check if guess is correct
-        If correct - Increment wins, reset keysGuessed and guesses left, pick new letter
-	      if not correct - Decrement guesses left, if guess = 0, then LOSE, prompt to play again
-    */
+
     document.onkeyup = function(event) {
+
+        // Creating variables to hold the number of wins, losses. They start at 0. # of guesses at 9. array for letters guessed
+    // outside of function
+    var wins = 0;
+    var losses = 0;
+    var guess = 9;
+console.log("first " + guess);
+    var keysGuessed = []; 
 
       // Determines which key was pressed.
       var userGuess = event.key;
@@ -62,14 +51,10 @@ console.log("first " + guess);
       // push guess to array
       keysGuessed.push(userGuess);
 	
-      // decrement guess
-      guess++;
-console.log("second " + guess);
-
       // This logic determines the outcome of the game (win/loss), and increments the appropriate number
       // don't increment losses until 9 bad guesses. if correct before 9, increment wins, reset guess to 9
-      if (userGuess === computerGuess) { // user wins, increment wins, reset other
-        ++wins;
+      if (userGuess === computerGuess) { // user wins, increment wins, reset other. Get new computer guess
+        wins++;
 	      losses = 0;
         guess = 9;
 	      keysGuessed=[];
@@ -84,7 +69,8 @@ console.log("fourth " + guess);
 		      if (newGame != null) {
 		      var wins = 0;
 		      var losses = 0;
-		      var guess = 9;
+          var guess = 9;
+console.log("fifth " + guess);
 		      // var keysGuessed = [];
 	      	} else {
 		      alert("Bye, bye! Thanks for playing!");
